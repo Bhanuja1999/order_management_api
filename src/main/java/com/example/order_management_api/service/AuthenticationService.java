@@ -27,6 +27,7 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // Method for client signup
     public Client signup(RegisterClientDto input) {
         Client client = new Client()
                 .setEmail(input.getEmail())
@@ -37,6 +38,7 @@ public class AuthenticationService {
         return clientRepository.save(client);
     }
 
+    // Method for client authentication
     public Client authenticate(LoginClientDto input) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

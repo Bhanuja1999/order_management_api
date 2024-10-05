@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/auth")
+@RequestMapping("/auth") // Base URL for authentication-related endpoints
 @RestController
 public class AuthenticationController {
     private final JwtService jwtService;
@@ -24,6 +24,7 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
+    // Endpoint for client registration
     @PostMapping("/signup")
     public ResponseEntity<Client> register(@RequestBody RegisterClientDto registerClientDto) {
         Client registeredUser = authenticationService.signup(registerClientDto);
@@ -31,10 +32,12 @@ public class AuthenticationController {
         return ResponseEntity.ok(registeredUser);
     }
 
+    // Endpoint for client login
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginClientDto loginClientDto) {
         Client authenticatedUser = authenticationService.authenticate(loginClientDto);
 
+        // Generate JWT token for authenticated user
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
         LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
