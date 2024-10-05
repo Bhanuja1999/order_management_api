@@ -2,6 +2,7 @@ package com.example.order_management_api.service;
 
 import com.example.order_management_api.dto.LoginClientDto;
 import com.example.order_management_api.dto.RegisterClientDto;
+import com.example.order_management_api.exception.ResourceAlreadyExistsException;
 import com.example.order_management_api.model.Client;
 import com.example.order_management_api.repository.ClientRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +30,11 @@ public class AuthenticationService {
 
     // Method for client signup
     public Client signup(RegisterClientDto input) {
+
+        if (clientRepository.findByEmail(input.getEmail()).isPresent()) {
+            throw new ResourceAlreadyExistsException("Client already exists with this email: " + input.getEmail());
+        }
+
         Client client = new Client()
                 .setEmail(input.getEmail())
                 .setPassword(passwordEncoder.encode(input.getPassword()))

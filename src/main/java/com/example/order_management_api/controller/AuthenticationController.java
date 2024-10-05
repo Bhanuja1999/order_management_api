@@ -6,6 +6,7 @@ import com.example.order_management_api.dto.RegisterClientDto;
 import com.example.order_management_api.model.Client;
 import com.example.order_management_api.service.AuthenticationService;
 import com.example.order_management_api.service.JwtService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,7 @@ public class AuthenticationController {
 
     // Endpoint for client registration
     @PostMapping("/signup")
-    public ResponseEntity<Client> register(@RequestBody RegisterClientDto registerClientDto) {
+    public ResponseEntity<Client> register(@RequestBody @Valid RegisterClientDto registerClientDto) {
         Client registeredUser = authenticationService.signup(registerClientDto);
 
         return ResponseEntity.ok(registeredUser);
@@ -34,7 +35,7 @@ public class AuthenticationController {
 
     // Endpoint for client login
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginClientDto loginClientDto) {
+    public ResponseEntity<LoginResponse> authenticate(@RequestBody @Valid LoginClientDto loginClientDto) {
         Client authenticatedUser = authenticationService.authenticate(loginClientDto);
 
         // Generate JWT token for authenticated user
