@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.security.Principal;
 
@@ -21,7 +22,7 @@ public class OrderController {
 
     //Places a new order
     @PostMapping("/place")
-    public ResponseEntity<String> placeOrder(@RequestBody OrderRequest orderRequest, @AuthenticationPrincipal Client client) {
+    public ResponseEntity<String> placeOrder(@RequestBody @Valid OrderRequest orderRequest, @AuthenticationPrincipal Client client) {
         String orderRef = orderService.placeOrder(orderRequest, client);
         return ResponseEntity.ok("Order placed successfully. Reference Number: " + orderRef);
     }
