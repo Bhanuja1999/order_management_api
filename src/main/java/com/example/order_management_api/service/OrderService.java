@@ -1,5 +1,6 @@
 package com.example.order_management_api.service;
 
+import com.example.order_management_api.dto.OrderDto;
 import com.example.order_management_api.dto.OrderRequest;
 import com.example.order_management_api.exception.ResourceNotFoundException;
 import com.example.order_management_api.model.Client;
@@ -49,11 +50,18 @@ public class OrderService {
     }
 
     //Retrieves the order history for a specific client with pagination
-    public Page<Order> getOrderHistory(Client client, int pageNo, int pageSize) {
+    public Page<OrderDto> getOrderHistory(Client client, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        return orderRepository.findByClient(client, pageable);
+        Page<Order> orderPage = orderRepository.findByClient(client, pageable);
+
+        return orderPage.map(order -> new OrderDto(
+                order.getReferenceNumber(),
+                order.getItemName(),
+                order.getQuantity(),
+                order.getShippingAddress(),
+                order.getPlacementTimestamp(),
+                order.getStatus().toString()
+        ));
     }
-
-
 }
 

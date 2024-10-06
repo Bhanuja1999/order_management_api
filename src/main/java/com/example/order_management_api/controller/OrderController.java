@@ -1,8 +1,8 @@
 package com.example.order_management_api.controller;
 
+import com.example.order_management_api.dto.OrderDto;
 import com.example.order_management_api.dto.OrderRequest;
 import com.example.order_management_api.model.Client;
-import com.example.order_management_api.model.Order;
 import com.example.order_management_api.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,16 +37,14 @@ public class OrderController {
 
     //Fetches the order history for the authenticated client
     @GetMapping("/history")
-    public ResponseEntity<Page<Order>> fetchOrderHistory(
+    public ResponseEntity<Page<OrderDto>> fetchOrderHistory(
             @RequestParam int pageNo,
             @RequestParam int pageSize,
             @AuthenticationPrincipal Client client) {
 
-        Page<Order> orderHistory = orderService.getOrderHistory(client, pageNo, pageSize);
+        Page<OrderDto> orderHistory = orderService.getOrderHistory(client, pageNo, pageSize);
         return ResponseEntity.ok(orderHistory);
     }
-
-
 
 }
 
