@@ -19,22 +19,27 @@ public class ApplicationConfiguration {
         this.clientRepository = clientRepository;
     }
 
+    // Bean for UserDetailsService, which loads user-specific data
     @Bean
     UserDetailsService userDetailsService() {
         return username -> clientRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+
+    //  Bean for BCryptPasswordEncoder,to encode and verify passwords
     @Bean
     BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    //  Bean for AuthenticationManager, which manages authentication for the application
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    // Bean for AuthenticationProvider, which is responsible for authenticating users
     @Bean
     AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();

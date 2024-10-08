@@ -35,6 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.handlerExceptionResolver = handlerExceptionResolver;
     }
 
+    // This method is called for every request and handles the Authentication process based on JWT
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
