@@ -12,8 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Service
 public class OrderService {
@@ -27,7 +27,7 @@ public class OrderService {
         order.setItemName(orderRequest.getItemName())
                 .setQuantity(orderRequest.getQuantity())
                 .setShippingAddress(orderRequest.getShippingAddress())
-                .setPlacementTimestamp(LocalDateTime.now())
+                .setPlacementTimestamp(ZonedDateTime.now(ZoneId.of("Asia/Kolkata")).toLocalDateTime())
                 .setStatus(OrderStatus.NEW)
                 .setClient(client);
 
